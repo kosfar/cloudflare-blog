@@ -1,8 +1,11 @@
+#!/usr/bin/env python
+
 import socket
 import os
 
-PORT=1235
-BACKLOG=2
+PORT = 1235
+BACKLOG = 2
+QSIZE = 10
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(('0.0.0.0', PORT))
@@ -14,8 +17,9 @@ s.listen(BACKLOG)
 # slow application.
 
 C = []
-for i in range($QSIZE+2):
-    if i == $QSIZE+1:
+
+for i in range(QSIZE + 2):
+    if i == QSIZE + 1:
         os.system("nstat -r > /dev/null")
     c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     c.setblocking(False)
@@ -23,7 +27,7 @@ for i in range($QSIZE+2):
         c.connect(('127.0.0.1', PORT))
     except socket.error:
         pass
-    C.append( c )
-    if i == $QSIZE+1:
+    C.append(c)
+    if i == QSIZE + 1:
         os.system("nstat")
 
